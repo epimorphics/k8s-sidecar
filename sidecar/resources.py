@@ -80,7 +80,7 @@ def list_resources(label, label_value, target_folder, url, method, payload,
         metadata = item.metadata
 
         if os.getenv("VERBOSE"):
-            print(f"{timestamp()} Working on {resource}: {metadata.namespace}/{metadata.name}")
+            print(f"{timestamp()} Scanning {resource}: {metadata.namespace}/{metadata.name} ...")
 
         # Get the destination folder
         dest_folder = _get_destination_folder(metadata, target_folder, folder_annotation)
@@ -185,7 +185,8 @@ def _watch_resource_iterator(label, label_value, target_folder, url, method, pay
         metadata = item.metadata
         event_type = event["type"]
 
-        print(f"{timestamp()} Working on {event_type} {resource} {metadata.namespace}/{metadata.name}")
+        if os.getenv("VERBOSE"):
+            print(f"{timestamp()} Scanning {event_type} {resource} {metadata.namespace}/{metadata.name} ...")
 
         files_changed = False
 
@@ -202,6 +203,7 @@ def _watch_resource_iterator(label, label_value, target_folder, url, method, pay
             execute(script)
 
         if url and files_changed:
+            print(f"{timestamp()} Change detected. Invoking {url}")
             request(url, method, payload)
 
 
