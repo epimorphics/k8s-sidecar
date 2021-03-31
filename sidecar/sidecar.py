@@ -94,7 +94,7 @@ def _initialize_kubeclient_configuration():
         configuration.debug = False
         client.Configuration.set_default(configuration)
     configuration = client.Configuration.get_default_copy()
-    print(f"{timestamp()} Config for cluster api at '{configuration.host}' loaded...")
+    print(f"{timestamp()} Config for cluster api at '{configuration.host}' loaded.")
 
 
 if __name__ == "__main__":

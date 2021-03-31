@@ -200,6 +200,7 @@ def _watch_resource_iterator(label, label_value, target_folder, url, method, pay
             files_changed |= _process_secret(dest_folder, item, resource, unique_filenames, item_removed)
 
         if script and files_changed:
+            print(f"{timestamp()} Change detected. Executing {script}")
             execute(script)
 
         if url and files_changed:
