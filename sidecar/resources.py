@@ -79,7 +79,8 @@ def list_resources(label, label_value, target_folder, url, method, payload,
     for item in ret.items:
         metadata = item.metadata
 
-        print(f"{timestamp()} Working on {resource}: {metadata.namespace}/{metadata.name}")
+        if os.getenv("VERBOSE"):
+            print(f"{timestamp()} Working on {resource}: {metadata.namespace}/{metadata.name}")
 
         # Get the destination folder
         dest_folder = _get_destination_folder(metadata, target_folder, folder_annotation)
@@ -90,6 +91,7 @@ def list_resources(label, label_value, target_folder, url, method, payload,
             files_changed = _process_secret(dest_folder, item, resource, unique_filenames)
 
     if url and files_changed:
+        print(f"{timestamp()} Change detected. Invoking {url}")
         request(url, method, payload)
 
 
