@@ -158,6 +158,7 @@ def _initialize_kubeclient_configuration():
         configuration.verify_ssl = False
         configuration.debug = False
         client.Configuration.set_default(configuration)
+        logger.warning("Kubernetes API TLS Verification disabled")
 
     # push urllib3 retries to k8s client config
     configuration = client.Configuration.get_default_copy()
