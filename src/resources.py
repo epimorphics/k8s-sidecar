@@ -13,7 +13,7 @@ from time import sleep
 
 from kubernetes import client, watch
 from kubernetes.client.rest import ApiException
-from urllib3.exceptions import MaxRetryError, ProtocolError
+from urllib3.exceptions import InsecureRequestWarning, MaxRetryError, ProtocolError
 
 from helpers import (CONTENT_TYPE_BASE64_BINARY, CONTENT_TYPE_TEXT,
                      WATCH_CLIENT_TIMEOUT, WATCH_SERVER_TIMEOUT, execute,
@@ -409,6 +409,8 @@ def _watch_resource_loop(mode, label, label_value, target_folder, request_url, r
                 sleep(int(os.getenv("ERROR_THROTTLE_SLEEP", 5)))
             else:
                 raise
+        except InsecureRequestWarning as e:
+            logger.waring(f"InsecureRequestWarning when calling kubernetes: {e}\n")
         except ProtocolError as e:
             logger.error(f"ProtocolError when calling kubernetes: {e}\n")
             sleep(int(os.getenv("ERROR_THROTTLE_SLEEP", 5)))
