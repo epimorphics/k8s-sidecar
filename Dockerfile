@@ -7,6 +7,7 @@ COPY        src/ /app/
 RUN apk add --no-cache gcc && \
 	.venv/bin/pip install --no-cache-dir -r requirements.txt && \
     rm requirements.txt && \
+  sed -i -e 's/warning.warn/log.debug/;' /app/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py && \
 	find /app/.venv \( -type d -a -name test -o -name tests \) -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) -exec rm -rf '{}' \+
 
 
